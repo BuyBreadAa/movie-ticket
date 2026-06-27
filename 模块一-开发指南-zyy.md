@@ -1,28 +1,30 @@
 # 模块一：用户管理 — 开发指南
 
-**负责人**: zyy ｜ **提交截止**: 第一轮结束前
+**负责人**: zyy ｜ **参考文档**: `项目管理/` 文件夹（项目整体进度、技术决策）
 
 ---
 
 ## 1. 获取源码
 
 ```bash
-# 方式 A：从共享文件夹/USB 复制整个项目目录
-# 方式 B：如果已配 Git remote
-git clone <仓库地址>
-cd js期末大作业/frontend
+git clone https://github.com/BuyBreadAa/movie-ticket.git
+cd movie-ticket/frontend
 npm install
+```
+
+后续每次开发前，先同步最新代码：
+```bash
+git pull
 ```
 
 ## 2. 启动开发环境
 
 ```bash
 cd frontend
-npm install        # 仅首次
 npm run dev        # → http://localhost:5173
 ```
 
-> 如果后端未启动，将 `frontend/src/api/mock.js` 第2行改为 `export const USE_MOCK = true` 即可独立开发。
+> 如果后端未启动，将 `src/api/mock.js` 第2行改为 `export const USE_MOCK = true` 即可独立开发（无需后端）。
 
 ## 3. 你只改这 4 个文件
 
@@ -97,7 +99,7 @@ await userStore.fetchMember()                   // 拉取会员信息
   - 密码必须包含字母和数字
   - 两次密码一致
 - **提交**: 调用 `register({ phone, email, password, nickname })`
-- **成功后**: 提示"注册成功"，跳转登录页
+- **成功后**: `ElMessage.success('注册成功')`，跳转登录页
 - **失败**: `ElMessage.error` 提示
 
 ### Profile.vue — 个人资料
@@ -124,7 +126,7 @@ await userStore.fetchMember()                   // 拉取会员信息
   --radius: 12px                 /* 圆角 */
   ```
 - **消息提示**: `import { ElMessage, ElMessageBox } from 'element-plus'`
-- **路由跳转**: `import { useRouter } from 'vue-router'` → `router.push('/xxx')`
+- **路由跳转**: `import { useRouter } from 'vue-router'` → `const router = useRouter()`
 
 ## 8. 测试账号
 
@@ -148,4 +150,12 @@ await userStore.fetchMember()                   // 拉取会员信息
 
 ## 10. 提交方式
 
-提交你修改的 4 个 `.vue` 文件。不要提交 `node_modules/`、`dist/` 或其他文件。
+完成开发后，用 Git 提交：
+
+```bash
+git add src/views/user/Login.vue src/views/user/Register.vue src/views/user/Profile.vue src/views/user/Member.vue
+git commit -m "模块一：用户管理完成"
+git push
+```
+
+然后通知 A 进行整合。
