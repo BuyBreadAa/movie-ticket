@@ -15,10 +15,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 开发命令
 
 ```bash
+# 前端
 cd frontend && npm install          # 安装依赖
-cd frontend && npm run dev          # 启动开发服务器
+cd frontend && npm run dev          # 启动开发服务器 (localhost:5173)
 cd frontend && npm run build        # 生产构建
+
+# 后端
+cd backend && mvn spring-boot:run   # 启动后端 (localhost:8080)
+cd backend && mvn compile           # 编译检查
 ```
+
+## Mock 开关
+
+`frontend/src/api/mock.js` 中 `USE_MOCK`:
+- `true` — 前端独立运行，不依赖后端
+- `false` — 连接真实后端 API
+
+## 数据库
+
+H2 内嵌数据库，数据由 `DataInitializer.java` 启动时自动初始化。
+- 测试用户: `13800138000` / `12345678` (admin)
+- 普通用户: `13900139000` / `12345678`
+- H2 Console: `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:movieticket`)
+
+## 当前状态
+
+骨架和后端已全部完成。zyy 和 fhf 只需修改各自模块的 JS 文件（views + stores + api/modules），不需要碰后端、路由、主题、mock 等基础设施。
 
 ## 开发流程（强制）
 

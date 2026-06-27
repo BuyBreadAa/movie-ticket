@@ -1,5 +1,5 @@
 // ponytail: 全局 mock，后端就绪后改 USE_MOCK=false 即可切回真实请求
-export const USE_MOCK = true
+export const USE_MOCK = false
 
 // key: "METHOD /path"（不含 query string）
 const mocks = {
