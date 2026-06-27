@@ -1,0 +1,110 @@
+/* ═══════ 电影票务 — 设计令牌 ═══════ */
+:root {
+  /* 背景 — 影院暗黑 */
+  --bg-deep:    #0a0a0f;
+  --bg-surface: #14141f;
+  --bg-card:    #1a1a2e;
+  --bg-elevated:#222240;
+
+  /* 文字 */
+  --text-primary:   #f0e6d3;
+  --text-secondary: #9898b0;
+  --text-muted:     #5e5e78;
+
+  /* 强调 — 聚光灯金 / 丝绒红 / 冷蓝 */
+  --gold:  #d4a843;
+  --red:   #e74c3c;
+  --blue:  #5b8def;
+
+  /* 发光 */
+  --glow-gold: 0 0 30px rgba(212,168,67,0.3);
+  --glow-red:  0 0 20px rgba(231,76,60,0.2);
+  --glow-blue: 0 0 20px rgba(91,141,239,0.2);
+
+  /* 圆角 / 间距 */
+  --radius: 12px;
+  --gap: 24px;
+
+  /* 字体 */
+  --font-display: Georgia, 'Times New Roman', 'Noto Serif SC', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', monospace;
+}
+
+/* ═══════ 覆写 Element Plus 暗色 ═══════ */
+:root {
+  --el-color-primary: var(--gold);
+  --el-bg-color: var(--bg-surface);
+  --el-bg-color-overlay: var(--bg-card);
+  --el-text-color-primary: var(--text-primary);
+  --el-text-color-regular: var(--text-secondary);
+  --el-border-color: #2a2a40;
+  --el-fill-color-blank: var(--bg-card);
+  --el-color-primary-light-3: #3d3530;
+  --el-color-primary-light-5: #2a2520;
+  --el-color-primary-light-7: #1a1815;
+  --el-color-primary-light-9: #0f0e0c;
+}
+
+/* ═══════ 基础 ═══════ */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: var(--blue); text-decoration: none; }
+h1,h2,h3,h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.2; }
+
+/* ═══════ 动画关键帧 ═══════ */
+
+/* 聚光灯扫射 — Hero 入场 */
+@keyframes spotlight-sweep {
+  0%   { opacity: 0; transform: translateX(-30%) skewX(-12deg); }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(130%) skewX(-12deg); }
+}
+
+/* 内容从下浮入 */
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(60px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 呼吸发光 — 卡片悬停 */
+@keyframes breathe-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212,168,67,0.15); }
+  50%      { box-shadow: 0 0 40px rgba(212,168,67,0.35); }
+}
+
+/* 标题字符间隔呼吸 */
+@keyframes letter-breathe {
+  0%, 100% { letter-spacing: 0.05em; }
+  50%      { letter-spacing: 0.15em; }
+}
+
+/* 丝绒帘幕拉开 */
+@keyframes curtain-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* ═══════ 页面过渡 ═══════ */
+.page-enter-active { animation: fade-rise 0.4s ease-out; }
+.page-leave-active  { animation: fade-rise 0.25s ease-in reverse; }
+
+/* ═══════ 通用工具类 ═══════ */
+.gold-text  { color: var(--gold); }
+.gold-line  { width: 60px; height: 3px; background: var(--gold); border-radius: 2px; }
+.section-gap { margin-bottom: 80px; }
+
+/* ═══════ 滚动条 ═══════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
