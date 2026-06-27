@@ -5,7 +5,6 @@ import { USE_MOCK, matchMock } from './mock'
 const request = axios.create({
   baseURL: '/api',
   timeout: 10000,
-  withCredentials: true,
 })
 
 request.interceptors.request.use(

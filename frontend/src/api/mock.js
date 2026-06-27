@@ -25,15 +25,14 @@ const mocks = {
       { id: 6, title: '楚门的世界', poster: '', type: '剧情', region: '美国', year: 1998, rating: 9.3 },
       { id: 7, title: '放牛班的春天', poster: '', type: '音乐', region: '法国', year: 2004, rating: 9.3 },
       { id: 8, title: '疯狂动物城', poster: '', type: '动画', region: '美国', year: 2016, rating: 9.2 },
-    ],
-    total: 8
+    ]
   },
   'GET /movie/1': { id: 1, title: '星际穿越', poster: '', trailer: '', director: '克里斯托弗·诺兰', castList: '马修·麦康纳, 安妮·海瑟薇', type: '科幻', region: '美国', year: 2014, synopsis: '一组宇航员穿越虫洞，为人类寻找新家园。', rating: 9.4 },
   'GET /movie/2': { id: 2, title: '肖申克的救赎', poster: '', trailer: '', director: '弗兰克·德拉邦特', castList: '蒂姆·罗宾斯, 摩根·弗里曼', type: '剧情', region: '美国', year: 1994, synopsis: '一个银行家被误判谋杀，在监狱中寻找希望。', rating: 9.7 },
   'GET /movie/3': { id: 3, title: '千与千寻', poster: '', trailer: '', director: '宫崎骏', castList: '柊瑠美, 入野自由', type: '动画', region: '日本', year: 2001, synopsis: '女孩千寻误入神灵世界，为救父母而工作。', rating: 9.4 },
   'GET /movie/4': { id: 4, title: '盗梦空间', poster: '', trailer: '', director: '克里斯托弗·诺兰', castList: '莱昂纳多·迪卡普里奥', type: '科幻', region: '美国', year: 2010, synopsis: '一个专门从他人梦中窃取秘密的小组。', rating: 9.3 },
-  'GET /movie/1/reviews': { list: [{ id: 1, userId: 2, rating: 5, content: '震撼的视觉体验，诺兰最佳作品之一', createdAt: '2026-06-20' }], total: 1 },
-  'GET /movie/2/reviews': { list: [{ id: 2, userId: 2, rating: 5, content: '希望是美好的，也许是最美好的东西', createdAt: '2026-06-18' }], total: 1 },
+  'GET /movie/1/reviews': { list: [{ id: 1, userId: 2, rating: 5, content: '震撼的视觉体验，诺兰最佳作品之一', createdAt: '2026-06-20' }] },
+  'GET /movie/2/reviews': { list: [{ id: 2, userId: 2, rating: 5, content: '希望是美好的，也许是最美好的东西', createdAt: '2026-06-18' }] },
   'POST /movie/1/review': { ok: true },
   'POST /movie/2/review': { ok: true },
 
@@ -54,7 +53,7 @@ const mocks = {
   'POST /order/create': { id: 1001, status: 'PENDING', payToken: 'pay-uuid-456', totalPrice: 69.9 },
   'POST /order/1001/pay': { ok: true, status: 'PAID', ticketCode: '880624' },
   'GET /order/1001': { id: 1001, movieTitle: '星际穿越', cinemaName: '万达影城（朝阳店）', hallName: '1号IMAX厅', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID', ticketCode: '880624' },
-  'GET /order/list': { list: [{ id: 1001, movieTitle: '星际穿越', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID' }], total: 1 },
+  'GET /order/list': { list: [{ id: 1001, movieTitle: '星际穿越', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID' }] },
 
   // ═══ 推荐模块 ═══
   'GET /recommend/home': {
@@ -66,21 +65,13 @@ const mocks = {
 
   // ═══ 后台模块 ═══
   'GET /admin/dashboard': { todayOrders: 128, todayBoxOffice: 8963, activeUsers: 3421, occupancyRate: 0.72 },
-  'GET /admin/movies': { list: [], total: 0 },
-  'GET /admin/schedules': { list: [], total: 0 },
-  'GET /admin/orders': { list: [], total: 0 },
-  'GET /admin/users': { list: [{ id: 1, nickname: '影迷小明', email: 'test@movie.com', role: 'user', status: 'active' }, { id: 2, nickname: '管理员', email: 'admin@movie.com', role: 'admin', status: 'active' }], total: 2 },
+  'GET /admin/movies': { list: [] },
+  'GET /admin/schedules': { list: [] },
+  'GET /admin/orders': { list: [] },
+  'GET /admin/users': { list: [{ id: 1, nickname: '影迷小明', email: 'test@movie.com', role: 'user', status: 'active' }, { id: 2, nickname: '管理员', email: 'admin@movie.com', role: 'admin', status: 'active' }] },
 }
 
 export function matchMock(method, url) {
   const key = method + ' ' + url
-  if (key in mocks) return { data: mocks[key] }
-
-  for (const pattern of Object.keys(mocks)) {
-    const [m, p] = pattern.split(' ')
-    if (m !== method) continue
-    const regex = new RegExp('^' + p.replace(/:[^/]+/g, '[^/]+') + '$')
-    if (regex.test(url)) return { data: mocks[pattern] }
-  }
-  return undefined
+  return key in mocks ? { data: mocks[key] } : undefined
 }

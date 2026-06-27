@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from 'vue'
 // 模块四（zyy）实现推荐系统后替换为真实数据
 
 const movies = [

@@ -2,10 +2,7 @@ package com.movieticket.controller;
 
 import com.movieticket.dto.ApiResponse;
 import com.movieticket.entity.Movie;
-import com.movieticket.entity.Order;
 import com.movieticket.repo.MovieRepo;
-import com.movieticket.repo.OrderRepo;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -15,15 +12,13 @@ import java.util.*;
 public class RecommendController {
 
     private final MovieRepo movieRepo;
-    private final OrderRepo orderRepo;
 
-    public RecommendController(MovieRepo movieRepo, OrderRepo orderRepo) {
+    public RecommendController(MovieRepo movieRepo) {
         this.movieRepo = movieRepo;
-        this.orderRepo = orderRepo;
     }
 
     @GetMapping("/home")
-    public ApiResponse<?> home(Authentication auth) {
+    public ApiResponse<?> home() {
         List<Movie> showing = movieRepo.findByStatusOrderByRatingDesc("showing");
         List<Movie> hot = showing.size() > 4 ? showing.subList(0, 4) : showing;
         List<Movie> recommend;

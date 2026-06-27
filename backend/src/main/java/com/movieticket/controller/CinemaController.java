@@ -60,7 +60,7 @@ public class CinemaController {
     }
 
     @GetMapping("/hall/{hallId}/seats")
-    public ApiResponse<?> seats(@PathVariable Long hallId, @RequestParam Long showId) {
+    public ApiResponse<?> seats(@PathVariable Long hallId) {
         Hall hall = hallRepo.findById(hallId).orElse(null);
         if (hall == null) return ApiResponse.fail(404, "影厅不存在");
         return ApiResponse.ok(Map.of("seatLayout", hall.getSeatLayout()));
