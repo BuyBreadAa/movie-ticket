@@ -30,7 +30,7 @@ public class MovieController {
         List<Movie> all = movieRepo.findAll();
         if (type != null) all = all.stream().filter(m -> type.equals(m.getType())).toList();
         if (region != null) all = all.stream().filter(m -> region.equals(m.getRegion())).toList();
-        if (year != null) all = all.stream().filter(m -> year.equals(m.getYear())).toList();
+        if (year != null) all = all.stream().filter(m -> m.getYear() != null && m.getYear().equals(year)).toList();
         return ApiResponse.ok(Map.of("list", all, "total", all.size()));
     }
 

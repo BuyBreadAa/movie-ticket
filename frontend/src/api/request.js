@@ -18,7 +18,14 @@ request.interceptors.request.use(
 )
 
 request.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    const body = response.data
+    // 解包 ApiResponse: {code, message, data} → data
+    if (body && typeof body.code === 'number' && body.code !== 200) {
+      return Promise.reject(new Error(body.message || '请求失败'))
+    }
+    return body && 'data' in body ? body.data : body
+  },
   (error) => {
     if (error.response?.status === 401) {
       clearToken()

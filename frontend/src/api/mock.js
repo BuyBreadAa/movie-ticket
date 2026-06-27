@@ -6,8 +6,7 @@ const mocks = {
 
   // ═══ 用户模块 ═══
   'POST /user/login': {
-    token: 'mock-jwt-token-abc123',
-    user: { id: 1, nickname: '影迷小明', phone: '13800138000', email: 'test@movie.com', avatar: '', role: 'user', level: 'VIP会员', points: 1280 }
+    token: 'mock-jwt-token-abc123'
   },
   'POST /user/register': { ok: true },
   'GET /user/profile': { id: 1, nickname: '影迷小明', phone: '13800138000', email: 'test@movie.com', avatar: '', role: 'user', level: 'VIP会员', points: 1280 },
@@ -29,12 +28,12 @@ const mocks = {
     ],
     total: 8
   },
-  'GET /movie/1': { id: 1, title: '星际穿越', poster: '', trailer: '', director: '克里斯托弗·诺兰', cast: '马修·麦康纳, 安妮·海瑟薇', type: '科幻', region: '美国', year: 2014, synopsis: '一组宇航员穿越虫洞，为人类寻找新家园。', rating: 9.4 },
-  'GET /movie/2': { id: 2, title: '肖申克的救赎', poster: '', trailer: '', director: '弗兰克·德拉邦特', cast: '蒂姆·罗宾斯, 摩根·弗里曼', type: '剧情', region: '美国', year: 1994, synopsis: '一个银行家被误判谋杀，在监狱中寻找希望。', rating: 9.7 },
-  'GET /movie/3': { id: 3, title: '千与千寻', poster: '', trailer: '', director: '宫崎骏', cast: '柊瑠美, 入野自由', type: '动画', region: '日本', year: 2001, synopsis: '女孩千寻误入神灵世界，为救父母而工作。', rating: 9.4 },
-  'GET /movie/4': { id: 4, title: '盗梦空间', poster: '', trailer: '', director: '克里斯托弗·诺兰', cast: '莱昂纳多·迪卡普里奥', type: '科幻', region: '美国', year: 2010, synopsis: '一个专门从他人梦中窃取秘密的小组。', rating: 9.3 },
-  'GET /movie/1/reviews': { list: [{ id: 1, user: '影迷A', rating: 5, content: '震撼的视觉体验，诺兰最佳作品之一', createdAt: '2026-06-20' }], total: 1 },
-  'GET /movie/2/reviews': { list: [{ id: 2, user: '影迷B', rating: 5, content: '希望是美好的，也许是最美好的东西', createdAt: '2026-06-18' }], total: 1 },
+  'GET /movie/1': { id: 1, title: '星际穿越', poster: '', trailer: '', director: '克里斯托弗·诺兰', castList: '马修·麦康纳, 安妮·海瑟薇', type: '科幻', region: '美国', year: 2014, synopsis: '一组宇航员穿越虫洞，为人类寻找新家园。', rating: 9.4 },
+  'GET /movie/2': { id: 2, title: '肖申克的救赎', poster: '', trailer: '', director: '弗兰克·德拉邦特', castList: '蒂姆·罗宾斯, 摩根·弗里曼', type: '剧情', region: '美国', year: 1994, synopsis: '一个银行家被误判谋杀，在监狱中寻找希望。', rating: 9.7 },
+  'GET /movie/3': { id: 3, title: '千与千寻', poster: '', trailer: '', director: '宫崎骏', castList: '柊瑠美, 入野自由', type: '动画', region: '日本', year: 2001, synopsis: '女孩千寻误入神灵世界，为救父母而工作。', rating: 9.4 },
+  'GET /movie/4': { id: 4, title: '盗梦空间', poster: '', trailer: '', director: '克里斯托弗·诺兰', castList: '莱昂纳多·迪卡普里奥', type: '科幻', region: '美国', year: 2010, synopsis: '一个专门从他人梦中窃取秘密的小组。', rating: 9.3 },
+  'GET /movie/1/reviews': { list: [{ id: 1, userId: 2, rating: 5, content: '震撼的视觉体验，诺兰最佳作品之一', createdAt: '2026-06-20' }], total: 1 },
+  'GET /movie/2/reviews': { list: [{ id: 2, userId: 2, rating: 5, content: '希望是美好的，也许是最美好的东西', createdAt: '2026-06-18' }], total: 1 },
   'POST /movie/1/review': { ok: true },
   'POST /movie/2/review': { ok: true },
 
@@ -55,7 +54,7 @@ const mocks = {
   'POST /order/create': { id: 1001, status: 'PENDING', payToken: 'pay-uuid-456', totalPrice: 69.9 },
   'POST /order/1001/pay': { ok: true, status: 'PAID', ticketCode: '880624' },
   'GET /order/1001': { id: 1001, movieTitle: '星际穿越', cinemaName: '万达影城（朝阳店）', hallName: '1号IMAX厅', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID', ticketCode: '880624' },
-  'GET /order/list': { list: [{ id: 1001, movieTitle: '星际穿越', cinemaName: '万达影城（朝阳店）', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID' }], total: 1 },
+  'GET /order/list': { list: [{ id: 1001, movieTitle: '星际穿越', startTime: '2026-06-28 14:30', seats: ['5排6座'], totalPrice: 69.9, status: 'PAID' }], total: 1 },
 
   // ═══ 推荐模块 ═══
   'GET /recommend/home': {
@@ -74,11 +73,9 @@ const mocks = {
 }
 
 export function matchMock(method, url) {
-  // 动态路径匹配：/movie/1/reviews → /movie/:id/reviews
   const key = method + ' ' + url
   if (key in mocks) return { data: mocks[key] }
 
-  // 尝试参数化匹配
   for (const pattern of Object.keys(mocks)) {
     const [m, p] = pattern.split(' ')
     if (m !== method) continue

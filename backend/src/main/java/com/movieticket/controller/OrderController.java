@@ -3,7 +3,7 @@ package com.movieticket.controller;
 import com.movieticket.dto.*;
 import com.movieticket.entity.*;
 import com.movieticket.repo.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +90,7 @@ public class OrderController {
             return ApiResponse.fail(404, "订单不存在");
         if (!"PENDING".equals(order.getStatus()))
             return ApiResponse.fail(400, "订单状态不允许支付");
-        if (!req.payToken.equals(order.getPayToken()))
+        if (order.getPayToken() == null || !req.payToken.equals(order.getPayToken()))
             return ApiResponse.fail(400, "支付凭证无效");
 
         // 积分抵扣
@@ -108,7 +108,7 @@ public class OrderController {
         order.setPayPrice(Math.max(finalPrice, 0));
         order.setStatus("PAID");
         order.setPaidAt(LocalDateTime.now());
-        order.setTicketCode(String.format("%06d", order.getId() + 100000).substring(0, 6));
+        order.setTicketCode(String.format("%06d", order.getId() % 1000000));
         orderRepo.save(order);
 
         // 清除座位锁
